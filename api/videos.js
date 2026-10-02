@@ -10,6 +10,13 @@ module.exports = async (req, res) => {
     return res.status(405).json({ error: "Method not allowed" });
   }
 
+  // The CDN caches by full URL, so "?anything=random" would skip the cache
+  // and spend YouTube quota on every request. The app never sends query
+  // params, so reject them before calling YouTube.
+  if (Object.keys(req.query || {}).length > 0) {
+    return res.status(400).json({ error: "This endpoint takes no query parameters" });
+  }
+
   if (!process.env.YOUTUBE_API_KEY) {
     return res.status(500).json({ error: "YOUTUBE_API_KEY is not set" });
   }
