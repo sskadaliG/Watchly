@@ -26,7 +26,7 @@ export const ChatContainer = () => {
 
 
     return (
-        <div className="grid md:h-[600px] lg:h-[720px]  grid-rows-12 border border-gray-300 rounded-lg ml-2 mb-6 md:w-80 lg:w-96">
+        <div className="grid h-[480px] lg:h-[600px] grid-rows-12 border border-gray-300 rounded-lg mt-4 lg:mt-0 mb-6 w-full">
             <h1 className="row-span-1 font-medium p-4">Live Chat</h1>
             <div className="row-span-10 w-full p-4 border-b border-t overflow-y-scroll">
                 {messages.map((m) => <Chat key={m.name} name={m.name} message={m.message}></Chat>)}

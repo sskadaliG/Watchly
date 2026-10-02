@@ -14,10 +14,7 @@ const MainVideo = ({ params }) => {
   const { title, channelTitle } = snippet;
 
   return (
-    <div className="border-b   pb-4"><iframe className="rounded-lg md:w-[1000px]
-      md:h-[600px]
-      lg:w-[1350px]
-      lg:h-[720px]"
+    <div className="border-b   pb-4"><iframe className="rounded-lg w-full aspect-video"
 
       src={`https://www.youtube.com/embed/${params}?autoplay=1&disablekb=1&loop=1&playlist=${params}`}
       title="YouTube video player"

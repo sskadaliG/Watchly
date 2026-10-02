@@ -1,4 +1,4 @@
-export const LOGO = "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Logo_of_YouTube_%282015-2017%29.svg/1004px-Logo_of_YouTube_%282015-2017%29.svg.png?20200109235614"
+export const LOGO = process.env.PUBLIC_URL + "/watchly-icon.svg"
 
 export const MENU_LOGO = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRr-cwMeLLj8MfIo3HoXJKFcOFB1g9U4DDMHA&s"
 

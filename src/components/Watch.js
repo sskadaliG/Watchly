@@ -20,12 +20,12 @@ const Watch = () => {
     }, []);
 
     return (
-        <div className="flex px-4 pt-4">
-            <div className=" pl-16">
+        <div className="flex flex-col lg:flex-row w-full px-4 pt-4">
+            <div className="flex-1 min-w-0 lg:pl-16">
                 <MainVideo params={params} />
                 <CommentsContainer></CommentsContainer>
             </div>
-            <div className="px-4">
+            <div className="lg:px-4 lg:w-[26rem] lg:shrink-0">
                 <ChatContainer></ChatContainer>
                 <p className="font-bold px-2"> Suggestions</p>
                 <VideoList params={searchParams}></VideoList>

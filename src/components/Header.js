@@ -50,7 +50,10 @@ const Header = () => {
             <div className=" flex justify-between p-4 mx-4 drop-shadow-md">
             <div className="flex">
                 <img  onClick={handleOnCLick}className="w-8 h-8 hover:cursor-pointer" alt="menu-logo" src={MENU_LOGO} />
-                <Link to="/"><img className="w-24 pl-4 pb-2" alt="logo" src={LOGO} /></Link>
+                <Link to="/" className="flex items-center gap-1.5 pl-4">
+                    <img className="w-8 h-8" alt="" src={LOGO} />
+                    <span className="text-xl font-bold tracking-tight">Watchly</span>
+                </Link>
             </div>
 
             <div className=" w-1/3 mx-auto ">
