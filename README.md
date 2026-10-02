@@ -2,7 +2,7 @@
 
 A video browsing web app built with React and Redux. Watchly shows the current most popular videos from the YouTube Data API, plays them on a watch page with a simulated live chat and threaded comments, and offers type-ahead search suggestions.
 
-**Live demo:** _coming soon_
+**Live demo:** https://watchly-eosin.vercel.app
 
 ![Home page](docs/screenshots/home.png)
 
