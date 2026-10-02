@@ -2,7 +2,7 @@ import { INITIAL_LOGO } from '../utils/constants'
 import { commentsData } from '../utils/commentsData'
 
 const Comments = ({ data }) => {
-  const { name, text, reply } = data;
+  const { name, text } = data;
   return (
     <div className="flex w-full pl-2 py-2 bg-gray-50 rounded-lg">
       <img className="w-12 rounded-full mr-4" alt="logo" src={INITIAL_LOGO} />

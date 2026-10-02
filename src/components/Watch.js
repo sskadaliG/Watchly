@@ -17,7 +17,7 @@ const Watch = () => {
 
     useEffect(() => {
         dispatch(closeSideBar());
-    }, []);
+    }, [dispatch]);
 
     return (
         <div className="flex flex-col lg:flex-row w-full px-4 pt-4">

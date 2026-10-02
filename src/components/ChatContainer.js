@@ -20,7 +20,7 @@ export const ChatContainer = () => {
                 }))
             }, 10000);
             return () => clearInterval(timer);
-        }, []
+        }, [dispatch]
     );
 
 
