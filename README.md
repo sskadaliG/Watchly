@@ -1,70 +1,96 @@
-# Getting Started with Create React App
+# Watchly
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A video browsing web app built with React and Redux. Watchly shows the current most popular videos from the YouTube Data API, plays them on a watch page with a simulated live chat and threaded comments, and offers type-ahead search suggestions.
 
-## Available Scripts
+**Live demo:** _coming soon_
 
-In the project directory, you can run:
+![Home page](docs/screenshots/home.png)
 
-### `npm start`
+## Features
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- **Trending videos:** the 50 most popular US videos, with thumbnails, channel names, and formatted view counts (`1.9M`, `484K`)
+- **Watch page:** embedded player that autoplays, video details, and suggested videos alongside
+- **Search suggestions:** debounced type-ahead (200 ms) with results cached in Redux, so repeating a query never hits the network twice
+- **Simulated live chat:** new messages arrive every 10 seconds, you can post your own, and only the latest messages are kept so the list stays bounded
+- **Threaded comments:** replies rendered recursively to any depth
+- **Collapsible sidebar:** toggled from the header and closed automatically on the watch page
+- **No API keys in the browser:** all YouTube API calls go through serverless functions
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+| Search suggestions | Watch page |
+| --- | --- |
+| ![Search suggestions](docs/screenshots/search.png) | ![Watch page](docs/screenshots/watch.png) |
 
-### `npm test`
+## Tech stack
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+| Layer | Tools |
+| --- | --- |
+| Frontend | React 19, Redux Toolkit, React Router, Tailwind CSS |
+| Serverless API | Vercel Functions (Node.js) |
+| Data | YouTube Data API v3, Google search suggestions |
+| Hosting | Vercel |
 
-### `npm run build`
+## Architecture
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```
+Browser (React + Redux)
+   │
+   ├── GET /api/videos        ──►  Vercel Function ──► YouTube Data API (most popular)
+   │       (fields trimmed, CDN-cached for 1 hour)
+   │
+   ├── GET /api/suggest?q=... ──►  Vercel Function ──► Google search suggestions
+   │       (CDN-cached for 1 hour)
+   │
+   └── youtube.com/embed/<id>      video playback (iframe)
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+**Why serverless functions?** The first version called the YouTube Data API straight from the browser, so the API key was bundled into public JavaScript where anyone could copy it. Moving the call into a Vercel Function keeps the key on the server. The function only makes the one request the app needs and asks YouTube for just the fields the UI renders, which cuts the response to about 13 KB. Responses are cached at the CDN, so most visits use no API quota at all.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Search suggestions need a server too, for a different reason: Google's suggestion endpoint doesn't send CORS headers, so browsers block direct calls to it.
 
-### `npm run eject`
+**Local development without extra tooling:** `src/setupProxy.js` mounts the same `/api` handlers inside the `npm start` dev server, so the app runs locally exactly as it does on Vercel, with the key still kept out of the browser.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+**State management:** Redux Toolkit slices hold the sidebar state, the search suggestion cache, and the live chat messages.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Run locally
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+```bash
+git clone https://github.com/sskadaliG/Sri-Tube.git watchly
+cd watchly
+npm install
+cp .env.example .env   # then add your YouTube API key
+npm start
+```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+You'll need a free **YouTube Data API v3** key:
 
-## Learn More
+1. Create a project at https://console.cloud.google.com
+2. Enable **YouTube Data API v3** under APIs & Services → Library
+3. Create an API key under APIs & Services → Credentials, and restrict it to the YouTube Data API v3
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+The key is only used server-side, so don't add a website (HTTP referrer) restriction to it, or the server's requests will be rejected.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Deploy to Vercel
 
-### Code Splitting
+1. Import the repository at https://vercel.com/new (it detects Create React App automatically)
+2. Add `YOUTUBE_API_KEY` under Project → Settings → Environment Variables
+3. Deploy
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+`vercel.json` rewrites every non-`/api` path to `index.html`, so links like `/watch?v=...` work when opened directly.
 
-### Analyzing the Bundle Size
+## Project structure
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+```
+api/
+  videos.js         most popular videos (YouTube Data API proxy)
+  suggest.js        search suggestions proxy
+src/
+  components/       Header, sidebar, video grid, watch page, chat, comments
+  hooks/            useVideos data-fetching hook
+  store/            Redux slices (app, search cache, chat)
+  utils/            constants, menu data, view-count formatting
+  setupProxy.js     serves /api locally under npm start
+```
 
-### Making a Progressive Web App
+## Disclaimer
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Watchly is a portfolio project and is not affiliated with YouTube or Google. Video data comes from the [YouTube Data API](https://developers.google.com/youtube/v3), and videos play through the official YouTube embedded player. Chat messages and comments are sample data.
