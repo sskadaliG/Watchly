@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import MenuList from './MenuList';
-import { exploreList, helpList, mainList, moreFromSriTube, subscriptionList, youList } from "../utils/menuConstants"
+import { exploreList, helpList, mainList, moreFromWatchly, subscriptionList, youList } from "../utils/menuConstants"
 
 const SideBar = () => {
 
@@ -13,7 +13,7 @@ const SideBar = () => {
         <MenuList setActive={setActive} active={active} title={"You >"} list={youList}></MenuList>
         <MenuList setActive={setActive} active={active} title={"Subscriptions >"} list={subscriptionList}></MenuList>
         <MenuList setActive={setActive} active={active} title={"Explore"} list={exploreList}></MenuList>
-        <MenuList setActive={setActive} active={active} title={"More from Sri Tube"} list={moreFromSriTube}></MenuList>
+        <MenuList setActive={setActive} active={active} title={"More from Watchly"} list={moreFromWatchly}></MenuList>
         <MenuList setActive={setActive} active={active} title={"Help"} list={helpList}></MenuList>
       </div>
     </div>

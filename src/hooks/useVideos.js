@@ -8,9 +8,15 @@ const useVideos = () => {
   }, []);
 
   const getVideos = async () => {
-    const data = await fetch(YOUTUBE_VIDEOS_API);
-    const json = await data.json();
-    setVideos(json?.items);
+    try {
+      const data = await fetch(YOUTUBE_VIDEOS_API);
+      const json = await data.json();
+      if (!data.ok) throw new Error(json?.error?.message ?? `Videos request failed: ${data.status}`);
+      setVideos(json?.items ?? []);
+    } catch (err) {
+      console.error(err);
+      setVideos([]);
+    }
   };
   return videos;
 };

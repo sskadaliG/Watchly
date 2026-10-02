@@ -19,7 +19,7 @@ const MainVideo = ({ params }) => {
       lg:w-[1350px]
       lg:h-[720px]"
 
-      src={`https://www.youtube.com/embed/a-${params}bT1Qnk1B8Oo?si=YFn0hcnKSEZ9ab1R?&autoplay=1&disablekb=1&loop=1&playlist=${params}`}
+      src={`https://www.youtube.com/embed/${params}?autoplay=1&disablekb=1&loop=1&playlist=${params}`}
       title="YouTube video player"
       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
     ></iframe>

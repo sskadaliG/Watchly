@@ -35,12 +35,12 @@ export const exploreList = [
   { label: "Live", icon: "🔴", id: "live" },
 ];
 
-export const moreFromSriTube = [
-  { label: "Sri Tube Premium", icon: "💎", id: "premium" },
-  { label: "Sri Tube Studio", icon: "🎥", id: "studio" },
-  { label: "Sri Tube Music", icon: "🎼", id: "musicApp" },
-  { label: "Sri Tube Kids", icon: "🧸", id: "kids" },
-  { label: "Sri Tube Gaming", icon: "🎲", id: "gamingApp" },
+export const moreFromWatchly = [
+  { label: "Watchly Premium", icon: "💎", id: "premium" },
+  { label: "Watchly Studio", icon: "🎥", id: "studio" },
+  { label: "Watchly Music", icon: "🎼", id: "musicApp" },
+  { label: "Watchly Kids", icon: "🧸", id: "kids" },
+  { label: "Watchly Gaming", icon: "🎲", id: "gamingApp" },
 ];
 
 export const helpList = [

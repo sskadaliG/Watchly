@@ -7,3 +7,6 @@ export const INITIAL_LOGO ="https://cdn2.vectorstock.com/i/1000x1000/86/71/golde
 const GOOGLE_API_KEY = process.env.REACT_APP_API_KEY;
 
 export const YOUTUBE_VIDEOS_API = "https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&chart=mostPopular&maxResults=50&regionCode=US&key="+ GOOGLE_API_KEY;
+
+// Proxied to Google's suggest endpoint (see src/setupProxy.js)
+export const YOUTUBE_SEARCH_API = "/api/suggest?q=";

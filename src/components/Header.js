@@ -20,19 +20,27 @@ const Header = () => {
     }
 
     useEffect(() => {
+        if (!searchQuery.trim()) return;
         const timer = setTimeout(() => {
             if(cache[searchQuery]){
-                setShowSuggestions(cache[searchQuery])
+                setSearchSuggestions(cache[searchQuery])
             } else {
             getSearchSuggestions()}}, 200);
         return () => { clearTimeout(timer); };
     }, [searchQuery]);
 
     const getSearchSuggestions = async () => {
-        const data = await fetch(YOUTUBE_SEARCH_API + searchQuery);
-        const json = await data.json();
-        setSearchSuggestions(json[1]);
-        dispatch(addCacheResults({[searchQuery]: json[1]}));
+        try {
+            const data = await fetch(YOUTUBE_SEARCH_API + encodeURIComponent(searchQuery));
+            if (!data.ok) throw new Error(`Suggestions request failed: ${data.status}`);
+            const json = await data.json();
+            const suggestions = json[1] ?? [];
+            setSearchSuggestions(suggestions);
+            dispatch(addCacheResults({[searchQuery]: suggestions}));
+        } catch (err) {
+            console.error(err);
+            setSearchSuggestions([]);
+        }
     }
 
 
